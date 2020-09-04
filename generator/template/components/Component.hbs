@@ -1,0 +1,39 @@
+// ./view/components.hbs
+import { pagination } from '@/mixins'
+{{#if hasApi}}
+  import { get{{properCase name}}List } from '@/api/{{kebabCase dir}}/{{kebabCase name}}'
+{{/if}}
+{{#if hasDialog}}
+  import { {{properCase name}}Dialog } from './components'
+{{/if}}
+export default {  
+  name: 'Role',  
+  {{#if hasDialog}}  
+  components: {    
+    {{properCase name}}Dialog  
+  }, 
+ {{/if}}  
+ mixins: [pagination], 
+ // 封装分页相关函数  
+ data () {    
+   return {      
+     {{#if hasApi}}      
+     listApi: get{{properCase name}}List, 
+     // 列表请求地址      
+     {{/if}}      
+     searchForm: {}    
+     }  
+  },  
+  mounted () {    
+    {{#if hasApi}}   
+     this.getListData()    
+    {{/if}} 
+  },  
+  methods: {    
+    handleCheck (row) {      
+      {{#if hasDialog}}      t
+      his.$refs.{{properCase name}}Dialog.openDialog(row, 'check')      
+      {{/if}}    
+    }  
+  }
+}

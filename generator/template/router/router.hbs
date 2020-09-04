@@ -1,11 +1,10 @@
 
-const {{moduleName}}= {
+
+export default {
   path:'/{{path}}',
   name:'{{name}}',
-  component:() => import(/* webpackChunkName: "{{name}}" */ '@、views/{{moduleName}}/{{name}}.vue'),
+  component:() => import(/* webpackChunkName: "{{name}}" */ '@/views/{{moduleName}}/{{name}}.vue'),
   meta: {
     title: '{{title}}'
   }
 }
-
-export default {{moduleName}}

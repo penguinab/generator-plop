@@ -1,10 +1,12 @@
 const fs = require('fs')
 const path =require('path')
-const blackFileList = ['login', 'base','salary']// 不会被读取的文件模块
+const {modules}=require('./config/module')// 不会被读取的文件模块
 let  moduleList=[]
 let cwd=process.cwd()
+let rootDir=path.join('../')
+
 const foundFiles=async(data)=>{
-    if(!blackFileList.includes(data.moduleName)){
+    if(!modules.includes(data.moduleName)){
         throw new Error('添加的新模块路由不存在请添加白名单里')
     }
     
@@ -16,13 +18,13 @@ const foundFiles=async(data)=>{
 
 
 module.exports={
-    descriptions:'根据module添加路由文件',
+    description:'根据module添加路由文件',
     prompts:[
         {
             type:'list',
             name:'moduleName',
             message:'添加入哪个模块',
-            choices:blackFileList
+            choices:modules
         },
         {
             type:'input',
@@ -46,7 +48,7 @@ module.exports={
         let actions=[
             {
                 type:'add',
-                path:`src/router/{{moduleName}}/{{name}}.js`,
+                path:`${rootDir}/src/router/{{moduleName}}/{{name}}.js`,
                 templateFile:`template/router/router.hbs`,
                 data:{
                     moduleName:`{{moduleName}}`,
@@ -57,8 +59,8 @@ module.exports={
             },
             {
                 type:'append',
-                path:`src/router/index.js`,
-                pattern:/\[\/\/forImport/,
+                path:`${rootDir}/src/router/index.js`,
+                pattern:/\/\/forImport/,
                 templateFile:`template/router/import.hbs`,
                 data:{
                     moduleName:`{{moduleName}}`,
@@ -67,7 +69,7 @@ module.exports={
             },
             {
                 type:'append',
-                path:`src/router/index.js`,
+                path:`${rootDir}/src/router/index.js`,
                 pattern:/\[\/\/forSpread/,
                 templateFile:`template/router/spread.hbs`,
                 data:{
