@@ -9,7 +9,11 @@ module.exports={
         {
             type:'input',
             name:'moduleName',
-            message:'请输入vuex的子模块名称',
+            message:'请输入vuex的子模块名称，如MyApp',
+            validate(value){
+                if((/([A-Z][a-z]+)+/).test(value))return true
+                return 'module必须为驼峰命名'
+            }
         }
     ],
     actions:function(data){
